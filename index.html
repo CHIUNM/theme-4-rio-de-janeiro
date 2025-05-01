@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>里約熱內盧</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background: url('rio-001.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+        h1 {
+            color: #ffffff;
+            font-size: 48px;
+            margin: 0 10px 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1s ease-in;
+            word-wrap: break-word;
+        }
+        .intro-text {
+            color: #e0e0e0;
+            font-size: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            margin: 20px 0;
+            line-height: 1.6;
+            max-width: 800px;
+            text-align: justify;
+            animation: fadeIn 1s ease-in;
+        }
+        input[type="password"] {
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 25px;
+            width: 220px;
+            max-width: 80%;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        input[type="password"]:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+            background: rgba(255, 255, 255, 1);
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        button:hover {
+            background: linear-gradient(45deg, #2980b9, #3498db);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        #gallery {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            box-sizing: border-box;
+            position: relative;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #gallery.show {
+            opacity: 1;
+        }
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            touch-action: pan-y;
+            overflow: visible;
+        }
+        .slideshow-container img {
+            display: none;
+            max-width: calc(100% - 10px);
+            max-height: calc(100% - 20px);
+            width: auto;
+            height: auto;
+            border: 5px solid rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: opacity 0.5s ease;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 1;
+        }
+        .slideshow-container img.active {
+            display: block;
+            opacity: 1;
+        }
+        .nav-buttons {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            z-index: 2;
+            pointer-events: none;
+        }
+        .nav-buttons button {
+            background: transparent;
+            color: #e0e0e0;
+            border: none;
+            padding: 10px;
+            font-size: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            pointer-events: auto;
+            position: absolute;
+        }
+        .nav-buttons button:first-child {
+            left: 15px;
+        }
+        .nav-buttons button:last-child {
+            right: 15px;
+        }
+        .nav-buttons button:hover {
+            color: #ffffff;
+            transform: scale(1.2);
+        }
+        .control-buttons {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+        }
+        .control-buttons button {
+            padding: 8px 20px;
+            font-size: 14px;
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            margin: 0 5px;
+        }
+        .control-buttons button:hover {
+            background: linear-gradient(45deg, #c0392b, #e74c3c);
+        }
+        .slide-counter {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #e0e0e0;
+            font-size: 16px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            z-index: 3;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+            .intro-text {
+                font-size: 18px;
+            }
+            .slideshow-container {
+                height: 100%;
+            }
+            .slideshow-container img {
+                max-width: calc(100% - 10px);
+                max-height: calc(100% - 18px);
+            }
+            input[type="password"] {
+                width: 180px;
+                max-width: 90%;
+            }
+            .nav-buttons button {
+                font-size: 36px;
+                padding: 8px;
+            }
+            .nav-buttons button:first-child {
+                left: 12px;
+            }
+            .nav-buttons button:last-child {
+                right: 12px;
+            }
+            .control-buttons {
+                bottom: 35px;
+            }
+            .control-buttons button {
+                padding: 6px 15px;
+                font-size: 12px;
+            }
+            .slide-counter {
+                font-size: 14px;
+                bottom: 4px;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 28px;
+            }
+            .intro-text {
+                font-size: 16px;
+            }
+            .slideshow-container {
+                height: 100%;
+            }
+            .slideshow-container img {
+                max-width: calc(100% - 10px);
+                max-height: calc(100% - 16px);
+            }
+            input[type="password"] {
+                width: 160px;
+                max-width: 85%;
+            }
+            button {
+                padding: 10px 20px;
+            }
+            .nav-buttons button {
+                font-size: 30px;
+                padding: 6px;
+            }
+            .nav-buttons button:first-child {
+                left: 10px;
+            }
+            .nav-buttons button:last-child {
+                right: 10px;
+            }
+            .control-buttons {
+                bottom: 30px;
+            }
+            .control-buttons button {
+                padding: 5px 10px;
+                font-size: 10px;
+            }
+            .slide-counter {
+                font-size: 12px;
+                bottom: 3px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 id="main-title">里約熱內盧</h1>
+    <div class="intro-text">
+        里約熱內盧，巴西的靈魂之城，以其迷人的海灘、熱情的桑巴舞和壯麗的基督像聞名於世。科帕卡巴納海灘的浪花、糖麵包山的日落，還有狂歡節的節奏，讓這座城市充滿活力與魅力。讓我們一起走進里約，感受這片土地的熱情與美麗。
+    </div>
+    <p>請輸入密碼來查看照片</p>
+    <input type="password" id="pass" placeholder="輸入密碼">
+    <button onclick="checkPassword()">進入</button>
+
+    <div id="gallery" style="display: none;">
+        <div class="slideshow-container">
+            <img src="rio-001.jpg" alt="rio-001.jpg">
+            <img src="rio-002.jpg" alt="rio-002.jpg">
+            <img src="rio-003.jpg" alt="rio-003.jpg">
+            <img src="rio-004.jpg" alt="rio-004.jpg">
+            <img src="rio-005.jpg" alt="rio-005.jpg">
+            <img src="rio-006.jpg" alt="rio-006.jpg">
+            <img src="rio-007.jpg" alt="rio-007.jpg">
+            <img src="rio-008.jpg" alt="rio-008.jpg">
+            <img src="rio-009.jpg" alt="rio-009.jpg">
+            <img src="rio-010.jpg" alt="rio-010.jpg">
+            <img src="rio-011.jpg" alt="rio-011.jpg">
+            <img src="rio-012.jpg" alt="rio-012.jpg">
+            <img src="rio-013.jpg" alt="rio-013.jpg">
+            <img src="rio-014.jpg" alt="rio-014.jpg">
+            <img src="rio-015.jpg" alt="rio-015.jpg">
+            <img src="rio-016.jpg" alt="rio-016.jpg">
+            <img src="rio-017.jpg" alt="rio-017.jpg">
+            <img src="rio-018.jpg" alt="rio-018.jpg">
+            <img src="rio-019.jpg" alt="rio-019.jpg">
+            <img src="rio-020.jpg" alt="rio-020.jpg">
+            <img src="rio-021.jpg" alt="rio-021.jpg">
+            <img src="rio-022.jpg" alt="rio-022.jpg">
+            <img src="rio-023.jpg" alt="rio-023.jpg">
+            <img src="rio-024.jpg" alt="rio-024.jpg">
+            <img src="rio-025.jpg" alt="rio-025.jpg">
+            <img src="rio-026.jpg" alt="rio-026.jpg">
+            <img src="rio-027.jpg" alt="rio-027.jpg">
+            <img src="rio-028.jpg" alt="rio-028.jpg">
+            <img src="rio-029.jpg" alt="rio-029.jpg">
+            <img src="rio-030.jpg" alt="rio-030.jpg">
+            <img src="rio-031.jpg" alt="rio-031.jpg">
+            <img src="rio-032.jpg" alt="rio-032.jpg">
+            <img src="rio-033.jpg" alt="rio-033.jpg">
+            <img src="rio-034.jpg" alt="rio-034.jpg">
+            <img src="rio-035.jpg" alt="rio-035.jpg">
+            <img src="rio-036.jpg" alt="rio-036.jpg">
+            <img src="rio-037.jpg" alt="rio-037.jpg">
+            <img src="rio-038.jpg" alt="rio-038.jpg">
+            <img src="rio-039.jpg" alt="rio-039.jpg">
+            <img src="rio-040.jpg" alt="rio-040.jpg">
+            <img src="rio-041.jpg" alt="rio-041.jpg">
+            <img src="rio-042.jpg" alt="rio-042.jpg">
+            <img src="rio-043.jpg" alt="rio-043.jpg">
+            <img src="rio-044.jpg" alt="rio-044.jpg">
+            <img src="rio-045.jpg" alt="rio-045.jpg">
+            <img src="rio-046.jpg" alt="rio-046.jpg">
+            <img src="rio-047.jpg" alt="rio-047.jpg">
+            <img src="rio-048.jpg" alt="rio-048.jpg">
+            <img src="rio-049.jpg" alt="rio-049.jpg">
+            <img src="rio-050.jpg" alt="rio-050.jpg">
+            <img src="rio-051.jpg" alt="rio-051.jpg">
+            <img src="rio-052.jpg" alt="rio-052.jpg">
+            <img src="rio-053.jpg" alt="rio-053.jpg">
+            <img src="rio-054.jpg" alt="rio-054.jpg">
+            <img src="rio-055.jpg" alt="rio-055.jpg">
+            <img src="rio-056.jpg" alt="rio-056.jpg">
+            <img src="rio-057.jpg" alt="rio-057.jpg">
+            <img src="rio-058.jpg" alt="rio-058.jpg">
+            <img src="rio-059.jpg" alt="rio-059.jpg">
+            <img src="rio-060.jpg" alt="rio-060.jpg">
+            <img src="rio-061.jpg" alt="rio-061.jpg">
+            <img src="rio-062.jpg" alt="rio-062.jpg">
+            <img src="rio-063.jpg" alt="rio-063.jpg">
+            <img src="rio-064.jpg" alt="rio-064.jpg">
+            <img src="rio-065.jpg" alt="rio-065.jpg">
+            <img src="rio-066.jpg" alt="rio-066.jpg">
+            <img src="rio-067.jpg" alt="rio-067.jpg">
+            <img src="rio-068.jpg" alt="rio-068.jpg">
+            <img src="rio-069.jpg" alt="rio-069.jpg">
+            <img src="rio-070.jpg" alt="rio-070.jpg">
+            <img src="rio-071.jpg" alt="rio-071.jpg">
+            <img src="rio-072.jpg" alt="rio-072.jpg">
+            <img src="rio-073.jpg" alt="rio-073.jpg">
+            <img src="rio-074.jpg" alt="rio-74.jpg">
+            <img src="rio-075.jpg" alt="rio-075.jpg">
+            <img src="rio-076.jpg" alt="rio-076.jpg">
+            <img src="rio-077.jpg" alt="rio-077.jpg">
+            <img src="rio-078.jpg" alt="rio-078.jpg">
+            <img src="rio-079.jpg" alt="rio-079.jpg">
+            <img src="rio-080.jpg" alt="rio-080.jpg">
+            <img src="rio-081.jpg" alt="rio-081.jpg">
+            <img src="rio-082.jpg" alt="rio-082.jpg">
+            <img src="rio-083.jpg" alt="rio-083.jpg">
+            <img src="rio-084.jpg" alt="rio-084.jpg">
+            <img src="rio-085.jpg" alt="rio-085.jpg">
+            <img src="rio-086.jpg" alt="rio-086.jpg">
+            <img src="rio-087.jpg" alt="rio-087.jpg">
+            <img src="rio-088.jpg" alt="rio-088.jpg">
+            <img src="rio-089.jpg" alt="rio-089.jpg">
+            <img src="rio-090.jpg" alt="rio-090.jpg">
+            <img src="rio-091.jpg" alt="rio-091.jpg">
+            <img src="rio-092.jpg" alt="rio-092.jpg">
+            <img src="rio-093.jpg" alt="rio-093.jpg">
+            <img src="rio-094.jpg" alt="rio-094.jpg">
+            <img src="rio-095.jpg" alt="rio-095.jpg">
+            <img src="rio-096.jpg" alt="rio-096.jpg">
+            <img src="rio-097.jpg" alt="rio-097.jpg">
+            <img src="rio-098.jpg" alt="rio-098.jpg">
+            <img src="rio-099.jpg" alt="rio-099.jpg">
+            <img src="rio-100.jpg" alt="rio-100.jpg">
+            <img src="rio-101.jpg" alt="rio-101.jpg">
+            <img src="rio-102.jpg" alt="rio-102.jpg">
+            <img src="rio-103.jpg" alt="rio-103.jpg">
+            <img src="rio-104.jpg" alt="rio-104.jpg">
+            <img src="rio-105.jpg" alt="rio-105.jpg">
+            <div class="nav-buttons">
+                <button onclick="changeSlide(-1)"><</button>
+                <button onclick="changeSlide(1)">></button>
+            </div>
+            <div class="control-buttons">
+                <button id="play-pause-btn" onclick="toggleAutoSlide()">暫停</button>
+            </div>
+            <div class="slide-counter"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slideshow-container img');
+        const slideshowContainer = document.querySelector('.slideshow-container');
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let autoSlideInterval = null;
+        let isAutoSliding = true;
+
+        function setGalleryHeight() {
+            const gallery = document.getElementById('gallery');
+            gallery.style.height = `${window.innerHeight}px`;
+        }
+        window.addEventListener('resize', setGalleryHeight);
+        setGalleryHeight();
+
+        function checkPassword() {
+            const password = document.getElementById("pass").value;
+            if (password === "12345") {
+                document.getElementById("main-title").style.display = "none";
+                document.getElementById("pass").style.display = "none";
+                document.querySelector("button[onclick='checkPassword()']").style.display = "none";
+                document.querySelector("p").style.display = "none";
+                document.querySelector(".intro-text").style.display = "none";
+                document.getElementById("gallery").style.display = "block";
+                document.getElementById("gallery").classList.add("show");
+                showSlide(currentSlide);
+                startAutoSlide();
+                document.title = "幻燈片模式";
+            } else {
+                alert("密碼錯誤！");
+            }
+        }
+
+        function showSlide(index) {
+            if (index >= slides.length) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = slides.length - 1;
+            } else {
+                currentSlide = index;
+            }
+
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide].classList.add('active');
+            const slideCounter = document.querySelector('.slide-counter');
+            if (slideCounter) {
+                slideCounter.textContent = `${currentSlide + 1}/${slides.length}`;
+            }
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        function startAutoSlide() {
+            if (!isAutoSliding) return;
+            autoSlideInterval = setInterval(() => {
+                changeSlide(1);
+            }, 5000);
+        }
+
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
+
+        function toggleAutoSlide() {
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            if (isAutoSliding) {
+                stopAutoSlide();
+                isAutoSliding = false;
+                playPauseBtn.textContent = "播放";
+            } else {
+                startAutoSlide();
+                isAutoSliding = true;
+                playPauseBtn.textContent = "暫停";
+            }
+        }
+
+        slideshowContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        slideshowContainer.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            if (touchStartX - touchEndX > swipeThreshold) {
+                changeSlide(1);
+            }
+            if (touchEndX - touchStartX > swipeThreshold) {
+                changeSlide(-1);
+            }
+        }
+    </script>
+</body>
+</html>
