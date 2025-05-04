@@ -15,8 +15,6 @@
         body {
             font-family: 'Arial', sans-serif;
             text-align: center;
-            background: url('rio001.jpg') no-repeat center center fixed;
-            background-size: cover;
             color: #fff;
             position: relative;
             min-height: 100vh;
@@ -120,10 +118,9 @@
         }
         .slideshow-container img {
             display: none;
-            max-width: calc(100% - 10px);
-            max-height: calc(100% - 20px);
-            width: auto;
-            height: auto;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             border: 5px solid rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -214,8 +211,8 @@
                 height: 100%;
             }
             .slideshow-container img {
-                max-width: calc(100% - 10px);
-                max-height: calc(100% - 18px);
+                width: 100%;
+                height: 100%;
             }
             input[type="password"] {
                 width: 180px;
@@ -254,8 +251,8 @@
                 height: 100%;
             }
             .slideshow-container img {
-                max-width: calc(100% - 10px);
-                max-height: calc(100% - 16px);
+                width: 100%;
+                height: 100%;
             }
             input[type="password"] {
                 width: 160px;
@@ -291,7 +288,484 @@
 <body>
     <h1 id="main-title">里約熱內盧</h1>
     <div class="intro-text">
-        里約熱內盧，巴西的靈魂之城，以其迷人的海灘、熱情的桑巴舞和壯麗的基督像聞名於世。科帕卡巴納海灘的浪花、糖麵包山的日落，還有狂歡節的節奏，讓這座城市充滿活力與魅力。讓我們一起走進里約，感受這片土地的熱情與美麗。
+        里約熱內盧，巴西的靈魂之城，以迷人的海灘、壯麗的基督像聞名於世，科帕卡巴納海灘、<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>里約熱內盧</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+        h1 {
+            color: #ffffff;
+            font-size: 48px;
+            margin: 0 10px 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1s ease-in;
+            word-wrap: break-word;
+        }
+        .intro-text {
+            color: #e0e0e0;
+            font-size: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            margin: 20px 0;
+            line-height: 1.6;
+            max-width: 800px;
+            text-align: justify;
+            animation: fadeIn 1s ease-in;
+        }
+        input[type="password"] {
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 25px;
+            width: 220px;
+            max-width: 80%;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        input[type="password"]:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+            background: rgba(255, 255, 255, 1);
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        button:hover {
+            background: linear-gradient(45deg, #2980b9, #3498db);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        #gallery {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            box-sizing: border-box;
+            position: relative;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #gallery.show {
+            opacity: 1;
+        }
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            touch-action: pan-y;
+            overflow: visible;
+        }
+        .slideshow-container img {
+            display: none;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 5px solid rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: opacity 0.5s ease;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 1;
+        }
+        .slideshow-container img.active {
+            display: block;
+            opacity: 1;
+        }
+        .nav-buttons {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            z-index: 2;
+            pointer-events: none;
+        }
+        .nav-buttons button {
+            background: transparent;
+            color: #e0e0e0;
+            border: none;
+            padding: 10px;
+            font-size: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            pointer-events: auto;
+            position: absolute;
+        }
+        .nav-buttons button:first-child {
+            left: 15px;
+        }
+        .nav-buttons button:last-child {
+            right: 15px;
+        }
+        .nav-buttons button:hover {
+            color: #ffffff;
+            transform: scale(1.2);
+        }
+        .control-buttons {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+        }
+        .control-buttons button {
+            padding: 8px 20px;
+            font-size: 14px;
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            margin: 0 5px;
+        }
+        .control-buttons button:hover {
+            background: linear-gradient(45deg, #c0392b, #e74c3c);
+        }
+        .slide-counter {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #e0e0e0;
+            font-size: 16px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            z-index: 3;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+            .intro-text {
+                font-size: 18px;
+            }
+            .slideshow-container {
+                height: 100%;
+            }
+            .slideshow-container img {
+                width: 100%;
+                height: 100%;
+            }
+            input[type="password"] {
+                width: 180px;
+                max-width: 90%;
+            }
+            .nav-buttons button {
+                font-size: 36px;
+                padding: 8px;
+            }
+            .nav-buttons button:first-child {
+                left: 12px;
+            }
+            .nav-buttons button:last-child {
+                right: 12px;
+            }
+            .control-buttons {
+                bottom: 35px;
+            }
+            .control-buttons button {
+                padding: 6px 15px;
+                font-size: 12px;
+            }
+            .slide-counter {
+                font-size: 14px;
+                bottom: 4px;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 28px;
+            }
+            .intro-text {
+                font-size: 16px;
+            }
+            .slideshow-container {
+                height: 100%;
+            }
+            .slideshow-container img {
+                width: 100%;
+                height: 100%;
+            }
+            input[type="password"] {
+                width: 160px;
+                max-width: 85%;
+            }
+            button {
+                padding: 10px 20px;
+            }
+            .nav-buttons button {
+                font-size: 30px;
+                padding: 6px;
+            }
+            .nav-buttons button:first-child {
+                left: 10px;
+            }
+            .nav-buttons button:last-child {
+                right: 10px;
+            }
+            .control-buttons {
+                bottom: 30px;
+            }
+            .control-buttons button {
+                padding: 5px 10px;
+                font-size: 10px;
+            }
+            .slide-counter {
+                font-size: 12px;
+                bottom: 3px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 id="main-title">里約熱內盧</h1>
+    <div class="intro-text">
+        里約熱內盧，巴西的靈魂之城，以迷人的海灘、壯麗的基督像和糖麵包山聞名於世。
+    <p>請輸入密碼來查看照片</p>
+    <input type="password" id="pass" placeholder="輸入密碼">
+    <button onclick="checkPassword()">進入</button>
+
+    <div id="gallery" style="display: none;">
+        <div class="slideshow-container">
+            <img src="rio001.jpg" alt="rio001.jpg">
+            <img src="rio002.jpg" alt="rio002.jpg">
+            <img src="rio003.jpg" alt="rio003.jpg">
+            <img src="rio004.jpg" alt="rio004.jpg">
+            <img src="rio005.jpg" alt="rio005.jpg">
+            <img src="rio006.jpg" alt="rio006.jpg">
+            <img src="rio007.jpg" alt="rio007.jpg">
+            <img src="rio008.jpg" alt="rio008.jpg">
+            <img src="rio009.jpg" alt="rio009.jpg">
+            <img src="rio010.jpg" alt="rio010.jpg">
+            <img src="rio011.jpg" alt="rio011.jpg">
+            <img src="rio012.jpg" alt="rio012.jpg">
+            <img src="rio013.jpg" alt="rio013.jpg">
+            <img src="rio014.jpg" alt="rio014.jpg">
+            <img src="rio015.jpg" alt="rio015.jpg">
+            <img src="rio016.jpg" alt="rio016.jpg">
+            <img src="rio017.jpg" alt="rio017.jpg">
+            <img src="rio018.jpg" alt="rio018.jpg">
+            <img src="rio019.jpg" alt="rio019.jpg">
+            <img src="rio020.jpg" alt="rio020.jpg">
+            <img src="rio021.jpg" alt="rio021.jpg">
+            <img src="rio022.jpg" alt="rio022.jpg">
+            <img src="rio023.jpg" alt="rio023.jpg">
+            <img src="rio024.jpg" alt="rio024.jpg">
+            <img src="rio025.jpg" alt="rio025.jpg">
+            <img src="rio026.jpg" alt="rio026.jpg">
+            <img src="rio027.jpg" alt="rio027.jpg">
+            <img src="rio028.jpg" alt="rio028.jpg">
+            <img src="rio029.jpg" alt="rio029.jpg">
+            <img src="rio030.jpg" alt="rio030.jpg">
+            <img src="rio031.jpg" alt="rio031.jpg">
+            <img src="rio032.jpg" alt="rio032.jpg">
+            <img src="rio033.jpg" alt="rio033.jpg">
+            <img src="rio034.jpg" alt="rio034.jpg">
+            <img src="rio035.jpg" alt="rio035.jpg">
+            <img src="rio036.jpg" alt="rio036.jpg">
+            <img src="rio037.jpg" alt="rio037.jpg">
+            <img src="rio038.jpg" alt="rio038.jpg">
+            <img src="rio039.jpg" alt="rio039.jpg">
+            <img src="rio040.jpg" alt="rio040.jpg">
+            <img src="rio041.jpg" alt="rio041.jpg">
+            <img src="rio042.jpg" alt="rio042.jpg">
+            <img src="rio043.jpg" alt="rio043.jpg">
+            <img src="rio044.jpg" alt="rio044.jpg">
+            <img src="rio045.jpg" alt="rio045.jpg">
+            <img src="rio046.jpg" alt="rio046.jpg">
+            <img src="rio047.jpg" alt="rio047.jpg">
+            <img src="rio048.jpg" alt="rio048.jpg">
+            <img src="rio049.jpg" alt="rio049.jpg">
+            <img src="rio050.jpg" alt="rio050.jpg">
+            <img src="rio051.jpg" alt="rio051.jpg">
+            <img src="rio052.jpg" alt="rio052.jpg">
+            <img src="rio053.jpg" alt="rio053.jpg">
+            <img src="rio054.jpg" alt="rio054.jpg">
+            <img src="rio055.jpg" alt="rio055.jpg">
+            <img src="rio056.jpg" alt="rio056.jpg">
+            <img src="rio057.jpg" alt="rio057.jpg">
+            <img src="rio058.jpg" alt="rio058.jpg">
+            <img src="rio059.jpg" alt="rio059.jpg">
+            <img src="rio060.jpg" alt="rio060.jpg">
+            <img src="rio061.jpg" alt="rio061.jpg">
+            <img src="rio062.jpg" alt="rio062.jpg">
+            <img src="rio063.jpg" alt="rio063.jpg">
+            <img src="rio064.jpg" alt="rio064.jpg">
+            <img src="rio065.jpg" alt="rio065.jpg">
+            <img src="rio066.jpg" alt="rio066.jpg">
+            <img src="rio067.jpg" alt="rio067.jpg">
+            <img src="rio068.jpg" alt="rio068.jpg">
+            <img src="rio069.jpg" alt="rio069.jpg">
+            <img src="rio070.jpg" alt="rio070.jpg">
+            <div class="nav-buttons">
+                <button onclick="changeSlide(-1)"><</button>
+                <button onclick="changeSlide(1)">></button>
+            </div>
+            <div class="control-buttons">
+                <button id="play-pause-btn" onclick="toggleAutoSlide()">暫停</button>
+            </div>
+            <div class="slide-counter"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slideshow-container img');
+        const slideshowContainer = document.querySelector('.slideshow-container');
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let autoSlideInterval = null;
+        let isAutoSliding = true;
+
+        function setGalleryHeight() {
+            const gallery = document.getElementById('gallery');
+            gallery.style.height = `${window.innerHeight}px`;
+        }
+        window.addEventListener('resize', setGalleryHeight);
+        setGalleryHeight();
+
+        function checkPassword() {
+            const password = document.getElementById("pass").value;
+            if (password === "12345") {
+                document.getElementById("main-title").style.display = "none";
+                document.getElementById("pass").style.display = "none";
+                document.querySelector("button[onclick='checkPassword()']").style.display = "none";
+                document.querySelector("p").style.display = "none";
+                document.querySelector(".intro-text").style.display = "none";
+                document.getElementById("gallery").style.display = "block";
+                document.getElementById("gallery").classList.add("show");
+                showSlide(currentSlide);
+                startAutoSlide();
+                document.title = "幻燈片模式";
+            } else {
+                alert("密碼錯誤！");
+            }
+        }
+
+        function showSlide(index) {
+            if (index >= slides.length) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = slides.length - 1;
+            } else {
+                currentSlide = index;
+            }
+
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide].classList.add('active');
+            const slideCounter = document.querySelector('.slide-counter');
+            if (slideCounter) {
+                slideCounter.textContent = `${currentSlide + 1}/${slides.length}`;
+            }
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        function startAutoSlide() {
+            if (!isAutoSliding) return;
+            autoSlideInterval = setInterval(() => {
+                changeSlide(1);
+            }, 5000);
+        }
+
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
+
+        function toggleAutoSlide() {
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            if (isAutoSliding) {
+                stopAutoSlide();
+                isAutoSliding = false;
+                playPauseBtn.textContent = "播放";
+            } else {
+                startAutoSlide();
+                isAutoSliding = true;
+                playPauseBtn.textContent = "暫停";
+            }
+        }
+
+        slideshowContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        slideshowContainer.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            if (touchStartX - touchEndX > swipeThreshold) {
+                changeSlide(1);
+            }
+            if (touchEndX - touchStartX > swipeThreshold) {
+                changeSlide(-1);
+            }
+        }
+    </script>
+</body>
+</html>讓這座城市充滿活力與魅力。讓我們一起走進里約，感受這片土地的熱情與美麗。
     </div>
     <p>請輸入密碼來查看照片</p>
     <input type="password" id="pass" placeholder="輸入密碼">
@@ -329,6 +803,46 @@
             <img src="rio028.jpg" alt="rio028.jpg">
             <img src="rio029.jpg" alt="rio029.jpg">
             <img src="rio030.jpg" alt="rio030.jpg">
+            <img src="rio031.jpg" alt="rio031.jpg">
+            <img src="rio032.jpg" alt="rio032.jpg">
+            <img src="rio033.jpg" alt="rio033.jpg">
+            <img src="rio034.jpg" alt="rio034.jpg">
+            <img src="rio035.jpg" alt="rio035.jpg">
+            <img src="rio036.jpg" alt="rio036.jpg">
+            <img src="rio037.jpg" alt="rio037.jpg">
+            <img src="rio038.jpg" alt="rio038.jpg">
+            <img src="rio039.jpg" alt="rio039.jpg">
+            <img src="rio040.jpg" alt="rio040.jpg">
+            <img src="rio041.jpg" alt="rio041.jpg">
+            <img src="rio042.jpg" alt="rio042.jpg">
+            <img src="rio043.jpg" alt="rio043.jpg">
+            <img src="rio044.jpg" alt="rio044.jpg">
+            <img src="rio045.jpg" alt="rio045.jpg">
+            <img src="rio046.jpg" alt="rio046.jpg">
+            <img src="rio047.jpg" alt="rio047.jpg">
+            <img src="rio048.jpg" alt="rio048.jpg">
+            <img src="rio049.jpg" alt="rio049.jpg">
+            <img src="rio050.jpg" alt="rio050.jpg">
+            <img src="rio051.jpg" alt="rio051.jpg">
+            <img src="rio052.jpg" alt="rio052.jpg">
+            <img src="rio053.jpg" alt="rio053.jpg">
+            <img src="rio054.jpg" alt="rio054.jpg">
+            <img src="rio055.jpg" alt="rio055.jpg">
+            <img src="rio056.jpg" alt="rio056.jpg">
+            <img src="rio057.jpg" alt="rio057.jpg">
+            <img src="rio058.jpg" alt="rio058.jpg">
+            <img src="rio059.jpg" alt="rio059.jpg">
+            <img src="rio060.jpg" alt="rio060.jpg">
+            <img src="rio061.jpg" alt="rio061.jpg">
+            <img src="rio062.jpg" alt="rio062.jpg">
+            <img src="rio063.jpg" alt="rio063.jpg">
+            <img src="rio064.jpg" alt="rio064.jpg">
+            <img src="rio065.jpg" alt="rio065.jpg">
+            <img src="rio066.jpg" alt="rio066.jpg">
+            <img src="rio067.jpg" alt="rio067.jpg">
+            <img src="rio068.jpg" alt="rio068.jpg">
+            <img src="rio069.jpg" alt="rio069.jpg">
+            <img src="rio070.jpg" alt="rio070.jpg">
             <div class="nav-buttons">
                 <button onclick="changeSlide(-1)"><</button>
                 <button onclick="changeSlide(1)">></button>
