@@ -115,6 +115,7 @@
             align-items: center;
             touch-action: pan-y;
             overflow: visible;
+            cursor: pointer;
         }
         .slideshow-container img {
             display: none;
@@ -162,22 +163,6 @@
         .nav-buttons button:hover {
             color: #ffffff;
             transform: scale(1.2);
-        }
-        .control-buttons {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 3;
-        }
-        .control-buttons button {
-            padding: 8px 20px;
-            font-size: 14px;
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
-            margin: 0 5px;
-        }
-        .control-buttons button:hover {
-            background: linear-gradient(45deg, #c0392b, #e74c3c);
         }
         .slide-counter {
             position: absolute;
@@ -227,13 +212,6 @@
             .nav-buttons button:last-child {
                 right: 12px;
             }
-            .control-buttons {
-                bottom: 35px;
-            }
-            .control-buttons button {
-                padding: 6px 15px;
-                font-size: 12px;
-            }
             .slide-counter {
                 font-size: 14px;
                 bottom: 4px;
@@ -269,13 +247,6 @@
             }
             .nav-buttons button:last-child {
                 right: 10px;
-            }
-            .control-buttons {
-                bottom: 30px;
-            }
-            .control-buttons button {
-                padding: 5px 10px;
-                font-size: 10px;
             }
             .slide-counter {
                 font-size: 12px;
@@ -369,9 +340,6 @@
                 <button onclick="changeSlide(-1)"><</button>
                 <button onclick="changeSlide(1)">></button>
             </div>
-            <div class="control-buttons">
-                <button id="play-pause-btn" onclick="toggleAutoSlide()">暫停</button>
-            </div>
             <div class="slide-counter"></div>
         </div>
     </div>
@@ -383,7 +351,7 @@
         let touchStartX = 0;
         let touchEndX = 0;
         let autoSlideInterval = null;
-        let isAutoSliding = true;
+        let isPlaying = true;
 
         function setGalleryHeight() {
             const gallery = document.getElementById('gallery');
@@ -432,7 +400,7 @@
         }
 
         function startAutoSlide() {
-            if (!isAutoSliding) return;
+            if (!isPlaying) return;
             autoSlideInterval = setInterval(() => {
                 changeSlide(1);
             }, 5000);
@@ -442,18 +410,28 @@
             clearInterval(autoSlideInterval);
         }
 
-        function toggleAutoSlide() {
-            const playPauseBtn = document.getElementById('play-pause-btn');
-            if (isAutoSliding) {
+        function togglePlayback() {
+            if (isPlaying) {
                 stopAutoSlide();
-                isAutoSliding = false;
-                playPauseBtn.textContent = "播放";
+                isPlaying = false;
             } else {
                 startAutoSlide();
-                isAutoSliding = true;
-                playPauseBtn.textContent = "暫停";
+                isPlaying = true;
             }
         }
+
+        slideshowContainer.addEventListener('click', (e) => {
+            const navButtons = document.querySelectorAll('.nav-buttons button');
+            let clickedOnNavButton = false;
+            navButtons.forEach(button => {
+                if (button.contains(e.target)) {
+                    clickedOnNavButton = true;
+                }
+            });
+            if (!clickedOnNavButton) {
+                togglePlayback();
+            }
+        });
 
         slideshowContainer.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
